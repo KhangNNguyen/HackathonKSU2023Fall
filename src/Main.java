@@ -55,6 +55,8 @@ public class Main {
         ArrayList<Double> rotorsPalletHeight = new ArrayList<>();
         ArrayList<Double> filtersPalletHeight = new ArrayList<>();
 
+        double totalPallets = 0;
+
         //Math
         //batteryPalletWeight = (37 * 100);
         //rotorPalletWeight = (26.4 * 216);
@@ -153,8 +155,11 @@ public class Main {
             }
 
             for (int i = 0; i < totalOrders; i ++){
+                totalPallets += (Math.ceil(batteryPallet.get(i)) + Math.ceil(rotorsPallet.get(i)) + Math.ceil(filtersPallet.get(i)));
                 System.out.println("For order "+(i+1)+ ", you will need "+batteryPallet.get(i)+ " pallets for batteries, "+rotorsPallet.get(i) +" pallets for rotors, and "+filtersPallet.get(i)+ " pallets for filters.");
+
             }
+            //System.out.println("total pallets " + totalPallets);
 
             // Total Pallet Volume Per Order
 
