@@ -88,6 +88,9 @@ public class Main {
                 filtersVolumeArray.add(filtersVolume);
                 orderNum++;
             }
+
+            //For each loop that add up the volume of all pallets
+
             for (Double num: batteryVolumeArray){
                 totalBattVolume += num;
             }
@@ -99,6 +102,10 @@ public class Main {
             }
             totalVolume = totalBattVolume + totalRotorsVolume + totalFiltersVolume;
             System.out.println(totalVolume+" inches cubed");
+
+
+            // Conditional statement that finds what will be the most optimal way to ship
+
 
             if (totalVolume < boxTruckVolume){
                 System.out.println("Your shipment will need one box truck");
@@ -129,6 +136,8 @@ public class Main {
 
 
             }
+
+            // For each loop that calculate how many pallets will be needed
 
             for (Integer num: batteryArray){
                 double temp = (double) num / 100;
