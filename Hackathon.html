@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f8f8f8;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Shipping Calculator</h1>
+        <form id="order-form">
+            <label for="total-orders">Enter total number of orders:</label>
+            <input type="number" id="total-orders" required><br><br>
+            <div id="order-details"></div>
+            <button type="submit">Calculate</button>
+        </form>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const form = document.getElementById('order-form');
+        const orderDetails = document.getElementById('order-details');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const totalOrders = parseInt(document.getElementById('total-orders').value);
+            if (isNaN(totalOrders)) {
+                alert('Please enter a valid number of orders.');
+                return;
+            }
+
+            orderDetails.innerHTML = '';
+            getOrderDetails(1, totalOrders);
+        });
+
+        function getOrderDetails(orderNum, totalOrders) {
+            if (orderNum <= totalOrders) {
+                const orderDiv = document.createElement('div');
+                orderDiv.innerHTML = `<h2>Order #${orderNum}</h2>
+                    <label for="batteries${orderNum}">Number of car batteries:</label>
+                    <input type="number" id="batteries${orderNum}" required><br><br>
+                    <label for="rotors${orderNum}">Number of brake rotors:</label>
+                    <input type="number" id="rotors${orderNum}" required><br><br>
+                    <label for="filters${orderNum}">Number of air filters:</label>
+                    <input type="number" id="filters${orderNum}" required><br><br>
+                    <button type="button" onclick="calculateOrder(${orderNum}, ${totalOrders})">Calculate</button>`;
+
+                orderDetails.appendChild(orderDiv);
+            } else {
+                alert('All orders processed.');
+            }
+        }
+
+        function calculateOrder(orderNum, totalOrders) {
+            const batteries = parseInt(document.getElementById(`batteries${orderNum}`).value);
+            const rotors = parseInt(document.getElementById(`rotors${orderNum}`).value);
+            const filters = parseInt(document.getElementById(`filters${orderNum}`).value);
+
+            if (isNaN(batteries) || isNaN(rotors) || isNaN(filters)) {
+                alert('Please enter valid numbers for order details.');
+                return;
+            }
+
+            const batteryVolume = 567.1875 * batteries;
+            const rotorsVolume = 290.2366 * rotors;
+            const filtersVolume = 290.2366 * filters;
+
+            const totalBattVolume = batteryVolume;
+            const totalRotorsVolume = rotorsVolume;
+            const totalFiltersVolume = filtersVolume;
+            const totalVolume = totalBattVolume + totalRotorsVolume + totalFiltersVolume;
+
+            const resultDiv = document.createElement('div');
+            resultDiv.innerHTML = `<h3>Order #${orderNum} Shipping Details:</h3>
+                Total Volume: ${totalVolume.toFixed(2)} inches cubed<br>`;
+
+            if (totalVolume < 18432) {
+                resultDiv.innerHTML += 'Your shipment will need one box truck';
+            } else if (totalVolume < 19200) {
+                resultDiv.innerHTML += 'Your shipment will need one storage unit';
+            } else if (totalVolume < 32640) {
+                resultDiv.innerHTML += 'Your shipment will need one shipping container';
+            } else {
+                const trucks = Math.ceil(totalVolume / 18432);
+                const units = Math.ceil(totalVolume / 19200);
+                const container = Math.ceil(totalVolume / 32640);
+
+                if (trucks > units) {
+                    if (units > container) {
+                        resultDiv.innerHTML += `Your shipment will be optimal when using ${container} shipping containers`;
+                    } else {
+                        resultDiv.innerHTML += `Your shipment will be optimal when using ${units} storage units`;
+                    }
+                } else {
+                    resultDiv.innerHTML += `Your shipment will be optimal when using ${trucks} box trucks`;
+                }
+            }
+
+            orderDetails.appendChild(resultDiv);
+            getOrderDetails(orderNum + 1, totalOrders);
+        }
+    </script>
+</body>
+</html>
