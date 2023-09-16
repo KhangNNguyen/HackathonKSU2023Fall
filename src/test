@@ -6,16 +6,16 @@ class Item {
     String name;
     double width;
     double height;
-    double depth;
+    double length; // Replaced "depth" with "length"
     double weight;
     boolean hazardous;
     int quantity;
 
-    public Item(String name, double width, double height, double depth, double weight, boolean hazardous, int quantity) {
+    public Item(String name, double width, double height, double length, double weight, boolean hazardous, int quantity) {
         this.name = name;
         this.width = width;
         this.height = height;
-        this.depth = depth;
+        this.length = length; // Replaced "depth" with "length"
         this.weight = weight * quantity; // Adjust weight based on quantity
         this.hazardous = hazardous;
         this.quantity = quantity;
@@ -25,38 +25,46 @@ class Item {
 class Container {
     double width;
     double height;
-    double depth;
+    double length; // Replaced "depth" with "length"
     double maxWeight;
     double currentWeight;
     List<Item> items;
-    int containerNumber = 0;
 
-    public Container(double width, double height, double depth, double maxWeight) {
+    public Container(double width, double height, double length, double maxWeight) {
         this.width = width;
         this.height = height;
-        this.depth = depth;
+        this.length = length; // Replaced "depth" with "length"
         this.maxWeight = maxWeight;
         this.currentWeight = 0.0;
         this.items = new ArrayList<>();
-        containerNumber ++;
     }
 
     public boolean canFitItem(Item item) {
         return width >= item.width &&
                 height >= item.height &&
-                depth >= item.depth &&
+                length >= item.length && // Replaced "depth" with "length"
                 currentWeight + (item.weight * item.quantity) <= maxWeight;
     }
 
     public void addItem(Item item) {
         items.add(item);
-        currentWeight += (item.weight * item.quantity); // Update current weight based on quantity
+        currentWeight += (item.weight * item.quantity);
         width -= (item.width * item.quantity);
         height -= (item.height * item.quantity);
-        depth -= (item.depth * item.quantity);
+        length -= (item.length * item.quantity); // Replaced "depth" with "length"
+
+        // Ensure dimensions are not negative
+        if (width < 0) {
+            width = 0;
+        }
+        if (height < 0) {
+            height = 0;
+        }
+        if (length < 0) {
+            length = 0;
+        }
     }
 }
-
 
 class FFDAlgorithm {
     public static void main(String[] args) {
@@ -66,26 +74,25 @@ class FFDAlgorithm {
         // Function to create a new container
         Runnable createNewContainer = () -> {
             System.out.println("Create a new container:");
-            System.out.print("Width (ft): ");
+            System.out.print("Width: ");
             double width = scanner.nextDouble();
-            System.out.print("Height (ft): ");
+            System.out.print("Height: ");
             double height = scanner.nextDouble();
-            System.out.print("Depth (ft): ");
-            double depth = scanner.nextDouble();
-            System.out.print("Max Weight (lbs): ");
+            System.out.print("Length: "); // Replaced "Depth" with "Length"
+            double length = scanner.nextDouble(); // Replaced "depth" with "length"
+            System.out.print("Max Weight: ");
             double maxWeight = scanner.nextDouble();
 
-            containers.add(new Container(width, height, depth, maxWeight));
+            containers.add(new Container(width, height, length, maxWeight)); // Replaced "depth" with "length"
         };
 
         createNewContainer.run();
 
-        // Create a list of items to be shipped (name, width, height, depth, weight, hazardous, quantity)
+        // Create a list of items to be shipped (name, width, height, length, weight, hazardous, quantity)
         List<Item> items = new ArrayList<>();
-        items.add(new Item("Item 1", 3.0, 2.0, 5.0, 1.0, false, 1));
-        items.add(new Item("Item 2", 2.0, 4.0, 6.0, 15.0, false, 1));
-        items.add(new Item("Item 3", 4.0, 3.0, 7.0, 2.0, false, 1));
-        items.add(new Item("Item 4", 5.0, 2.0, 5.0, 8.0, true, 1));
+        items.add(new Item("Proformer Battery", 0.573, 0.625, 0.917, 37.0, true, 1));
+        items.add(new Item("Premium Brake Rotor", 1.083, 0.183, 1.083, 26.4, false, 1));
+        items.add(new Item("Proformer Air filter", 0.773, 0.115, 1.042, 2.0, false, 1));
         // Add more items as needed...
 
         // Prompt the user for the quantity of each item
@@ -96,10 +103,10 @@ class FFDAlgorithm {
             item.weight = item.weight * newQuantity; // Update the weight based on the new quantity
         }
 
-        // Sort items in descending order of volume (height x width x depth)
+        // Sort items in descending order of volume (height x width x length) // Replaced "depth" with "length"
         Collections.sort(items, (item1, item2) -> {
-            double volume1 = item1.height * item1.width * item1.depth;
-            double volume2 = item2.height * item2.width * item2.depth;
+            double volume1 = item1.height * item1.width * item1.length; // Replaced "depth" with "length"
+            double volume2 = item2.height * item2.width * item2.length; // Replaced "depth" with "length"
             return Double.compare(volume2, volume1);
         });
 
@@ -131,34 +138,12 @@ class FFDAlgorithm {
             }
         }
 
-        // Check if there's available space in containers for additional items
-        for (Container container : containers) {
-            for (Item item : items) {
-                if (container.canFitItem(item)) {
-                    System.out.println("Available space in Container " + containerNumber);
-                    System.out.println("Enter quantity of " + item.name + " to add (0 to skip): ");
-                    int quantityToAdd = scanner.nextInt();
-                    if (quantityToAdd > 0) {
-                        // Update the container and item accordingly
-                        if (quantityToAdd <= item.quantity) {
-                            container.addItem(new Item(item.name, item.width, item.height, item.depth, item.weight, item.hazardous, quantityToAdd));
-                            item.quantity -= quantityToAdd;
-                        } else {
-                            System.out.println("Not enough quantity available. Adding maximum available quantity: " + item.quantity);
-                            container.addItem(new Item(item.name, item.width, item.height, item.depth, item.weight, item.hazardous, item.quantity));
-                            item.quantity = 0;
-                        }
-                    }
-                }
-            }
-        }
-
         // Print the results
         int containerNumber = 1;
         for (Container container : containers) {
             System.out.println("Container " + containerNumber++);
             System.out.println("Remaining Space: Width = " + container.width + " feet , Height = " + container.height
-                    + " feet, Depth = " + container.depth+ " feet");
+                    + " feet, Length = " + container.length+ " feet"); // Replaced "depth" with "length"
 
             double usedWeight = 0.0;
             for (Item item : container.items) {
