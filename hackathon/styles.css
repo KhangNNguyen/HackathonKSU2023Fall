@@ -1,0 +1,129 @@
+﻿/* Reset some default styles to provide a clean slate */
+body, h1, h2, ul, li, button, select, input {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+}
+
+.textalign{
+    text-align:center;
+}
+
+p{
+    font-size: 14px;
+}
+
+.centertext {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 15%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #808080;
+    display: flex;
+    flex-direction: column; /* Added to make it a column layout */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Added margin to separate from the list of containers */
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+h2 {
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* Rest of the CSS remains the same */
+
+input[type="text"], select {
+    margin-bottom: 10px; /* Increased margin for more spacing */
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+    color: #555;
+}
+
+.right-box {
+    margin-left: 800px; /* Adjust the margin as needed */
+
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 2px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+
+/* Container list item styles */
+.container-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Added margin to separate from the form */
+}
+
+    .container-list h2 {
+        font-size: 24px;
+        margin-top: 0; /* Remove the default top margin */
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .container-list ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .container-list li {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: #333;
+        line-height: 1.5;
+    }

@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Container App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div>
+        <img class="container center" src="gpc.png" width="10%" height="10%" />
+    </div>
+    <div class="container center">
+        <h1 class="textalign">Container App</h1>
+        <h2 class="textalign">Add Container</h2>
+        <form>
+
+            <div>
+                <p><b>Commonly used containers </b></p>
+                <p>Box Truck (24 Ft Length, 8 Ft Height, 8 Ft Width, Weight Limit 2600lbs )</p>
+                <p>Shipping Container (40 Ft Length, 8.5 Ft Height, 8 Ft Width, Weight Limit 59000lbs)</p>
+                <p>Storage Unit (20 Ft Length, 8 Ft Height, 10 Ft Width, No Weight Limit (use very large number))</p>
+            </div>
+
+            <label for="length">Length (feet):</label>
+            <input type="text" id="length" placeholder="Enter length">
+            <label for="height">Height (feet):</label>
+            <input type="text" id="height" placeholder="Enter height">
+            <label for="width">Width (feet):</label>
+            <input type="text" id="width" placeholder="Enter width">
+            <label for="maxWeight">Max Weight (lbs):</label>
+            <input type="text" id="maxWeight" placeholder="Enter max weight"><br />
+            <button type="button" onclick="createContainer()">Create Container</button><br />
+
+
+        </form>
+        <h2 class="textalign">Add GPC® Item</h2>
+        <form>
+            <label for="presetItems">Select GPC® Item:</label>
+            <select id="presetItems">
+                <option value="Proformer Battery">Proformer Battery </option>
+                <option value="Premium Brake Rotor">Premium Brake Rotor</option>
+                <option value="Proformer Air Filter">Proformer Air Filter</option>
+            </select>
+            <label for="quantity">Quantity:</label>
+            <input type="text" id="quantity" placeholder="Enter quantity"><br />
+            <button type="button" onclick="addPresetItem()">Add Item</button>
+        </form>
+    </div>
+
+    <!-- List of Containers -->
+    <div class="container-list">
+        <h2>List of Containers</h2>
+        <ul id="containerList">
+            <!-- Container items here -->
+        </ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
