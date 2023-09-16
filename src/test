@@ -66,7 +66,7 @@ class Container {
     }
 }
 
-class FFDAlgorithm {
+public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         List<Container> containers = new ArrayList<>();
@@ -92,7 +92,7 @@ class FFDAlgorithm {
         List<Item> items = new ArrayList<>();
         items.add(new Item("Proformer Battery", 0.573, 0.625, 0.917, 37.0, true, 1));
         items.add(new Item("Premium Brake Rotor", 1.083, 0.183, 1.083, 26.4, false, 1));
-        items.add(new Item("Proformer Air filter", 0.773, 0.115, 1.042, 2.0, false, 1));
+        items.add(new Item("Proformer Air Filter", 0.773, 0.115, 1.042, 2.0, false, 1));
         // Add more items as needed...
 
         // Prompt the user for the quantity of each item
@@ -122,21 +122,30 @@ class FFDAlgorithm {
             }
             if (!itemPlaced) {
                 // If there's no container to fit the item, create a new container
-                System.out.println("Item " + item.name + " (Quantity: " + item.quantity + ") cannot be placed in any container.");
-                createNewContainer.run();
-                // Try placing the item again in the new container
-                for (Container container : containers) {
-                    if (container.canFitItem(item)) {
-                        container.addItem(item);
-                        itemPlaced = true;
+
+                while (true) {
+                    System.out.println("Item " + item.name + " (Quantity: " + item.quantity + ") cannot be placed in any container.");
+                    createNewContainer.run();
+                    boolean placedInNewContainer = false;
+                    for (Container container : containers) {
+                        if (container.canFitItem(item)) {
+                            container.addItem(item);
+                            placedInNewContainer = true;
+                            break;
+                        }
+                    }
+                    if (placedInNewContainer) {
                         break;
                     }
                 }
-                if (!itemPlaced) {
-                    System.out.println("Item " + item.name + " (Quantity: " + item.quantity + ") cannot be placed even in the new container.");
-                }
             }
         }
+
+
+
+
+
+
 
         // Print the results
         int containerNumber = 1;
