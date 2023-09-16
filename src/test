@@ -1,3 +1,5 @@
+package src.main;
+
 import java.util.*;
 
 class Item {
@@ -48,14 +50,36 @@ class Container {
     }
 }
 
-public class FFDAlgorithm {
+class FFDAlgorithm {
     public static void main(String[] args) {
-        // Create containers
+        Scanner scanner = new Scanner(System.in);
         List<Container> containers = new ArrayList<>();
-        containers.add(new Container(8.0, 8.0, 24.0, 26000.0));
-        containers.add(new Container(8.0, 8.0, 40.0, 59200.0));
-        containers.add(new Container(10.0, 8.6, 40.0, 59200.0));
-        containers.add(new Container(8.0, 8.0, 20.0, 26000.0));
+
+        while (true) {
+            System.out.println("Create a new container (enter 'n' to stop):");
+            System.out.print("Width: ");
+            double width = 0;
+            if (scanner.hasNextDouble()) {
+                width = scanner.nextDouble();
+            } else {
+                String input = scanner.next();
+                if (input.equals("n")) {
+                    break; // Exit the loop when 'n' is entered
+                } else {
+                    System.out.println("Invalid input. Please enter a numeric value or 'n' to stop.");
+                    continue;
+                }
+            }
+
+            System.out.print("Height: ");
+            double height = scanner.nextDouble();
+            System.out.print("Depth: ");
+            double depth = scanner.nextDouble();
+            System.out.print("Max Weight: ");
+            double maxWeight = scanner.nextDouble();
+
+            containers.add(new Container(width, height, depth, maxWeight));
+        }
 
         // Create a list of items to be shipped (name, width, height, depth, weight, hazardous)
         List<Item> items = new ArrayList<>();
@@ -101,5 +125,8 @@ public class FFDAlgorithm {
             }
             System.out.println("------------------------");
         }
+
+        scanner.close();
+
     }
 }
