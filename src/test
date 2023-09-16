@@ -29,6 +29,7 @@ class Container {
     double maxWeight;
     double currentWeight;
     List<Item> items;
+    int containerNumber = 0;
 
     public Container(double width, double height, double length, double maxWeight) {
         this.width = width;
@@ -37,6 +38,7 @@ class Container {
         this.maxWeight = maxWeight;
         this.currentWeight = 0.0;
         this.items = new ArrayList<>();
+        containerNumber ++;
     }
 
     public boolean canFitItem(Item item) {
@@ -120,6 +122,7 @@ public class Main {
                     break;
                 }
             }
+
             if (!itemPlaced) {
                 // If there's no container to fit the item, create a new container
 
@@ -140,12 +143,6 @@ public class Main {
                 }
             }
         }
-
-
-
-
-
-
 
         // Print the results
         int containerNumber = 1;
