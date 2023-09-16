@@ -1,0 +1,105 @@
+import java.util.*;
+
+class Item {
+    String name;
+    double width;
+    double height;
+    double depth;
+    double weight;
+    boolean hazardous;
+
+    public Item(String name, double width, double height, double depth, double weight, boolean hazardous) {
+        this.name = name;
+        this.width = width;
+        this.height = height;
+        this.depth = depth;
+        this.weight = weight;
+        this.hazardous = hazardous;
+    }
+}
+
+class Container {
+    double width;
+    double height;
+    double depth;
+    double maxWeight;
+    double currentWeight;
+    List<Item> items;
+
+    public Container(double width, double height, double depth, double maxWeight) {
+        this.width = width;
+        this.height = height;
+        this.depth = depth;
+        this.maxWeight = maxWeight;
+        this.currentWeight = 0;
+        this.items = new ArrayList<>();
+    }
+
+    public boolean canFitItem(Item item) {
+        return width >= item.width && height >= item.height && depth >= item.depth && currentWeight + item.weight <= maxWeight;
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
+        currentWeight += item.weight;
+        width -= item.width;
+        height -= item.height;
+        depth -= item.depth;
+    }
+}
+
+public class FFDAlgorithm {
+    public static void main(String[] args) {
+        // Create containers
+        List<Container> containers = new ArrayList<>();
+        containers.add(new Container(8.0, 8.0, 24.0, 26000.0));
+        containers.add(new Container(8.0, 8.0, 40.0, 59200.0));
+        containers.add(new Container(10.0, 8.6, 40.0, 59200.0));
+        containers.add(new Container(8.0, 8.0, 20.0, 26000.0));
+
+        // Create a list of items to be shipped (name, width, height, depth, weight, hazardous)
+        List<Item> items = new ArrayList<>();
+        items.add(new Item("Item 1", 3.0, 2.0, 5.0, 1000.0, false));
+        items.add(new Item("Item 2", 2.0, 4.0, 6.0, 1500.0, false));
+        items.add(new Item("Item 3", 4.0, 3.0, 7.0, 2000.0, false));
+        items.add(new Item("Item 4", 5.0, 2.0, 5.0, 800.0, true));
+        // Add more items as needed...
+
+        // Sort items in descending order of volume (height x width x depth)
+        Collections.sort(items, (item1, item2) -> {
+            double volume1 = item1.height * item1.width * item1.depth;
+            double volume2 = item2.height * item2.width * item2.depth;
+            return Double.compare(volume2, volume1);
+        });
+
+        // Perform the First-Fit Decreasing (FFD) algorithm
+        for (Item item : items) {
+            boolean itemPlaced = false;
+            for (Container container : containers) {
+                if (container.canFitItem(item)) {
+                    container.addItem(item);
+                    itemPlaced = true;
+                    break;
+                }
+            }
+            if (!itemPlaced) {
+                // Handle the case when an item cannot be placed in any container
+                System.out.println("Item " + item.name + " cannot be placed in any container.");
+            }
+        }
+
+        // Print the results
+        int containerNumber = 1;
+        for (Container container : containers) {
+            System.out.println("Container " + containerNumber++);
+            System.out.println("Remaining Space: Width = " + container.width + ", Height = " + container.height
+                    + ", Depth = " + container.depth);
+            System.out.println("Used Weight: " + container.currentWeight + " / " + container.maxWeight);
+            System.out.println("Items in Container:");
+            for (Item item : container.items) {
+                System.out.println("- " + item.name);
+            }
+            System.out.println("------------------------");
+        }
+    }
+}
